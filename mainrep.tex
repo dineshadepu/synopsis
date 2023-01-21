@@ -1,265 +1,295 @@
-%%% Time-stamp: <mainrep.tex 19:57, 17 Jul 2016 by P Sunthar>
-%%% $Log:$
-% This document describes how to use iitbreport style
-%********************************************************************
+% arara: pdflatex
+% arara: biber
+% arara: pdflatex
+% arara: pdflatex if found('log', 'undefined references')
+% \documentclass[draft,12pt,oneside,a4paper]{memoir}
+\documentclass[12pt,article,oneside,a4paper]{memoir}
 
-%\documentclass[11pt,a4paper,openright]{report}
-\documentclass[tikz, twoside, 10pt]{iitbreport}
-% \documentclass[twoside,draft]{iitbreport}
 
-%% Default spacing: 1.5
-%% Default font size: 12pt
-%% Default font: txfonts (similar to times new roman)
-
-%% Selectively comment out sections that you want to be left out but
-%% maintaining the page numbers and other \ref
-\includeonly{%
-  chapter_synopsis/introduction_synopsis,
-  chapter_synopsis/ctvf_synopsis,
-  chapter_synopsis/csph_synopsis,
-  % chapter_synopsis/implementation_details,
-  chapter_synopsis/fsi_synopsis,
-  chapter_synopsis/rfc_synopsis,
-  chapter_synopsis/erosion_synopsis,
-  dec,abs,pub,ack
-}
-
-%%% Some commonly used packages (make sure your LaTeX installation
-%%% contains these packages, if not ask your senior to help installing
-%%% the packages)
-\usepackage{lipsum}
-\newcounter{question}
-\setcounter{question}{0}
-
-\usepackage{booktabs}
-\graphicspath{{expt/}}
-\usepackage{cleveref}
-\usepackage[hidelinks]{hyperref}
-
-% For the TODOs
-\usepackage{xcolor}
-\usepackage{xargs}
-\usepackage[colorinlistoftodos,textsize=footnotesize]{todonotes}
-\newcommand{\todoin}{\todo[inline]}
+\usepackage[english]{babel}
 \usepackage{graphicx}
-\usepackage{caption}
 \usepackage{subcaption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage[utf8]{inputenc}
+\usepackage[style=english]{csquotes}
 \usepackage{algorithm}
-\usepackage{algpseudocode}
-
-
-%%% Macro definitions for Commonly used symbols
-\newcommand{\Rey}{\ensuremath{\mathrm{Re}}}
-\newcommand{\avg}[1]{\ensuremath{\overline{#1}}}
-\newcommand{\tenpow}[1]{\ensuremath{\times 10^{#1}}}
-\newcommand{\pder}[2]{\ensuremath{\frac{\partial#1}{\partial#2}}}
-
-% Referencing macros
-\newcommand{\Eqref}[1]{Equation~\eqref{#1}}
-\newcommand{\Tabref}[1]{Table~\ref{#1}}
-\newcommand{\Figref}[1]{Figure~\ref{#1}}
-\newcommand{\Appref}[1]{Appendix~\ref{#1}}
-
-%Boldtype for greek symbols
-\newcommand{\teng}[1]{\ensuremath{\boldsymbol{#1}}}
-\newcommand{\ten}[1]{\ensuremath{\mathbf{#1}}}
-
-% ================= python ===========================
-% ================= python ===========================
-% ================= python ===========================
-% Default fixed font does not support bold face
-\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
-\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
-
-% Custom colors
-\usepackage{color}
-\definecolor{deepblue}{rgb}{0,0,0.5}
-\definecolor{deepred}{rgb}{0.6,0,0}
-\definecolor{deepgreen}{rgb}{0,0.5,0}
-
+\usepackage[noend]{algpseudocode}
 \usepackage{listings}
-\usepackage{minted}
+\usepackage{textcomp}
+\usepackage{courier}
+\usepackage{tikz}
+\usepackage{datetime}
+\usepackage{bibentry}
+\usepackage[varg]{txfonts}
+\usepackage{import}
+\usepackage{tcolorbox}
+\usepackage[backend=biber,
+            bibstyle=numeric,
+            citestyle=authoryear-comp,
+            uniquelist=false,
+            uniquename=false,
+            sorting=nyt,
+            url=false,
+            maxcitenames=1,
+            natbib=true,
+            backref=true]{biblatex}
 
+% Exclude \fullcite citation from bibliography
+\DeclareBibliographyCategory{fullcited}
+\newcommand{\mybibexclude}[1]{\addtocategory{fullcited}{#1}}
+
+
+\usepackage[section]{placeins}
+\usepackage[export]{adjustbox}
 \lstset{language=Python,
   basicstyle=\ttfamily\bfseries\small,
   commentstyle=\color{red}\itshape,
   stringstyle=\ttfamily\color{green!50!black},
   showstringspaces=false,
   keywordstyle=\color{blue}\bfseries}%
-% ================= python ===========================
-% ================= python ===========================
-% ================= python ===========================
+
+\newcommand{\code}[1]{\lstinline{#1}}
+
+% For the TODOs
+\usepackage{xcolor}
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,textsize=footnotesize]{todonotes}
+\newcommand{\todoin}{\todo[inline]}
+% from here: https://tex.stackexchange.com/questions/9796/how-to-add-todo-notes
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+
+% \usepackage{microtype}
+\usepackage[activate={true,nocompatibility},%
+final,tracking=true,kerning=true,spacing=true,%
+factor=1100,stretch=10,shrink=10]{microtype}
+
+\usepackage{tcolorbox}
+\usepackage{newtxmath}
+\usepackage[plainpages=false,
+            pdfpagelabels,
+            bookmarksnumbered,
+            draft=false,
+            colorlinks,
+            ]{hyperref}
+\usepackage{cleveref}
+\usepackage{newtxmath}
+\usepackage{titling}
+% \usepackage[displaymath,mathlines]{lineno}
+
+\definecolor{linkcolour}{rgb}{0,0.2,0.6}
+\definecolor{citecolour}{rgb}{0,0.6,0.2}
+\definecolor{urlcolour} {rgb}{0.8,0,0.8}
+
+\hypersetup{%
+  pdftitle={Coupled Smoothed Particle Hydrodynamics--Discrete Element Method
+    for Fluid and Solid Mechanics},
+  pdfauthor={Dinesh Adepu},
+  linkcolor=linkcolour,citecolor=citecolour,
+  filecolor=urlcolour,urlcolor=urlcolour, }
 
 
-% ================= tikz ===========================
-% ================= tikz ===========================
-\usetikzlibrary{arrows.meta,chains,%
-                decorations.pathreplacing}
+%% IITB Thesis guidelines
+\renewcommand{\rmdefault}{ptm}
 
-\usetikzlibrary{matrix,backgrounds}
-% ================= tikz ===========================
-% ================= tikz ===========================
+%%%% use Latin Modern for other fonts
+% \renewcommand{\sfdefault}{lmss}
+% \renewcommand{\ttdefault}{lmtt}
+
+
+%%% set up the page layout
+\settrimmedsize{11in}{210mm}{*}
+\setlength{\trimtop}{0pt}
+\setlength{\trimedge}{\stockwidth}
+\addtolength{\trimedge}{-\paperwidth}
+\settypeblocksize{7.75in}{33pc}{*}
+% \setulmargins{4cm}{*}{*}
+% \setlrmargins{1.5in}{*}{*}
+% IITB Margins
+\setlrmarginsandblock{3cm}{2cm}{*}
+\setulmarginsandblock{3.8cm}{3.5cm}{*}
+
+\setmarginnotes{17pt}{51pt}{\onelineskip}
+\setheadfoot{\onelineskip}{2\onelineskip}
+\setheaderspaces{*}{2\onelineskip}{*}
+\setsidefeet{\marginparsep}{9em}%
+   {\onelineskip}{0pt}%
+   {\normalfont\footnotesize}{\textheight}%
+\settypeoutlayoutunit{cm}
+\checkandfixthelayout%
+
+\crefname{section}{Section}{Sections}
+
+\newlength\figureheight%
+\newlength\figurewidth%
+
+\preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
+
+%%% Macro definitions for Commonly used symbols
+\newcommand{\ten}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\vb}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\grad}{\ensuremath{\nabla}}
+\newcommand{\proj}{\ensuremath{\mathcal{P}}}
+\newcommand{\divergence}{\ensuremath{\nabla \cdot}}
+\newcommand{\divt}{\ensuremath{\mathop{\text{div}}}}
+\newcommand{\interval}{\ensuremath{\mathop{\text{I}}}}
+\newcommand{\gradt}{\ensuremath{\mathop{\text{grad}}}}
+\newcommand{\mathtext}[1]{\ensuremath{\mathop{\text{#1}}}}
+\newcommand{\qqtext}[1]{\ensuremath{\quad \text{#1} \quad}}
+\newcommand{\qin}{\ensuremath{\quad \text{in} \quad}}
+\newcommand{\qand}{\ensuremath{\quad \text{and} \quad}}
+\newcommand{\qon}{\ensuremath{\quad \text{on} \quad}}
+\newcommand{\laplacian}{\ensuremath{\nabla^2}}
+\newcommand{\teng}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\Rey}{\operatorname{\mathit{R\kern-.04em e}}}
+
+\theoremstyle{definition}
+\newtheorem*{remark}{Remark}
+% Change font size to conform with the rest of the document text
+\renewcommand{\abstracttextfont}{\normalsize}
+\renewenvironment{abstract}{\chapter*{\abstractname}}{}
+
+
+\newdateformat{monthyeardate}{\large\monthname[\THEMONTH], \THEYEAR}
+\newdateformat{yeardate}{\large \THEYEAR}
+
+\addbibresource[datatype=bibtex]{mylit.bib}
+\urlstyle{tt}
+\emergencystretch=1em
+
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+      \step[fieldsource=url,final]
+      \step[fieldset=doi,null]
+    }
+  }
+}
+\renewcommand*{\nameyeardelim}{\addspace}
+\newcommand{\Usefont}[1]{\fontfamily{#1}\selectfont}
+\newcommand{\putiitblogo}{\includegraphics[width=10em]{iitb-black}}
+\newcommand{\reporttype}{
+  \textit{Proposed to be submitted in}\\
+  \emph{Partial fulfilment of the requirements for the Degree of}\vskip2.0\baselineskip%
+  {\large Doctor of Philosophy}\vskip2.0\baselineskip%
+  \textit{of the}\vskip2.0\baselineskip%
+  INDIAN INSTITUTE OF TECHNOLOGY BOMBAY\vskip2.0\baselineskip%
+ \textit{by}\vskip2.0\baselineskip%
+}
+
+\makeatletter
+\newcommand*{\titleGM}{%
+\thispagestyle{empty}
+\begin{center}
+\begingroup% Gentle Madness
+\hbox{%
+    \vbox{%
+      {\bfseries INDIAN INSTITUTE OF TECHNOLOGY BOMBAY\par}
+      {Department of Aerospace Engineering\par}\vskip2.0\baselineskip%
+      \textit{SYNOPSIS}\vskip2.0\baselineskip%
+      \textit{of the Ph.D. thesis entitled}\vskip2.0\baselineskip%
+      {\Large\bfseries\@title\par}\vskip2.0\baselineskip%
+      {\reporttype\par}%
+      {\@author\par}
+      \vspace{2\baselineskip}
+      {\@date\par}
+    }% end of vbox
+  }% end of hbox
+\vfill%
+\null%
+\endgroup
+\end{center}
+}
+\makeatother
+
+\newbox\keywbox
+\setbox\keywbox=\hbox{\bfseries Keywords:}%
+\newcommand\keywords{\noindent\rule{\wd\keywbox}{0.25pt}\\\textbf{Keywords:}\ }
+
 
 \begin{document}
 
-%%********************************For question and answer format***********************
-\newcommand\Que[1]{%
-   \leavevmode\par
-   \stepcounter{question}
-   \noindent
-   \thequestion. Q --- #1\par}
 
-\newcommand\Ans[2][]{%
-    \leavevmode\par\noindent
-   {\leftskip37pt
-    A --- \textbf{#1}#2\par}}
+\title{Coupled Smoothed Particle Hydrodynamics-Discrete Element Method for
+  Fluid and Solid Mechanics} \author{%
+  {\Large Dinesh Adepu} \\
+  \normalfont{Roll No. 153010009} \\
+  \vspace{0.2cm}
+  \normalfont{Supervisor:} \\
+  {\large Prof.\ Prabhu Ramachandran} }
 
-%%********************************Frontmatter***********************
-% In frontmatter everything comes with roman numbering
-\pagenumbering{roman}
-\setcounter{page}{1}
+\monthyeardate{}
 
-%*******************************************************************
-%                         Title Page
-%*******************************************************************
-\title{Coupled Smoothed Particle Hydrodynamics - Discrete Element Method
-  for Fluid and Solid Mechanics}
-\author{Dinesh Adepu}
+% \degree{M.Tech.~$+$~Ph.D. Dual Degree}
+% \dept{Department of Aerospace Engineering}
 
-%% Print the date. Today's date comes by default, change it here to
-%% other date format, if required:
+\titleGM%
+\thispagestyle{empty}
 
-%\date{\today}
-%\date{10 Mar 2016}
+\frontmatter%
+% Use make subsections appear in the contents. Use numdepth to make numbering
+% appear as well.
+\settocdepth{subsection}
 
 
-%% The type of the report can be set here
+\setlength{\unitlength}{1pt}
 
-% \reporttype{A Seminar Report}
-\reporttype{A Thesis}
-%\reporttype{A Dissertation}
-%\reporttype{A Project Report}
+\begingroup
+% important point here: We need \endlineshar=-1 here for the inline
+% list of subsections. Why? Beacause we have subsection subsubsection
+% subsection, and under hyperref running the l@subsubsection for
+% subsubsection, which typesets nothing, ruins our \ignorespaces in
+% our redefinition of \l@subsection (it cannot see and ignore the space after the
+% \contentsline line for subsubsection). Easiest solution: use
+% change \endlinechar
+%
+% Special thanks to David Carlisle in the tex.stackexchange.com chat
+% for suggesting it
 
-%% Name of the degree
-\degree{Doctor of Philosophy}
-%\degree{Master of Technology}
+\endlinechar=-1
+
+\endgroup
+
+\chapterstyle{article}
+% \counterwithout{section}{chapter}
+\epigraphfontsize{\small\itshape}%
+\setlength\epigraphwidth{.8\textwidth}
+\setlength\epigraphrule{0pt}
 
 
-%% Department/Centre Name
-\dept{Department of Aerospace Engineering}
+% \pagestyle{simple}
+% Center the page numbers
+\copypagestyle{mine}{ruled}
+\makeevenfoot{mine}{}{\thepage}{}
+\makeoddfoot{mine}{}{\thepage}{}
+\pagestyle{mine}
 
-%% Supervisor and cosupervisor/excosupervisor are not essential parts
-%% of a report title page, as it is your report!
 
-%% But if you **have** to put it uncomment these
-\supervisor{Prof. Prabhu Ramachandran}
-%\cosupervisor{Co-super name}
-%\excosupervisor{External Supervisor}
+\mainmatter%
+\setsecnumdepth{subsubsection}
 
-%% Roll number
-\rollnum{Roll No. 153010009}
-
-\maketitle
-
-%*******************************************************************
-%                         Copyright Page
-%*******************************************************************
-%\mycopyright
-
-%*******************************************************************
-%                         Dedication Page
-%*******************************************************************
-% \dedication[Dedicated to Nietzsche]
-\dedication[To \\ \cdots]
-%\addintoc{Dedication}
-
-%*******************************************************************
-%                        Certificate Page
-%*******************************************************************
-%\makecertificate[change title name]{report type}
-% \makecertificate{seminar report}
-\makecertificate{thesis}
-%\makecertificate{dissertation}
-%\makecertificate{project report}
-
-%\addintoc{Certificate}
-
-%*******************************************************************
-%                         Approval Sheet
-%*******************************************************************
-\makeapproval{thesis}
-%\makeapproval{dissertation}
-
-%*******************************************************************
-%                          Declaration
-%*******************************************************************
-\include{dec}
-%\addintoc{Declaration}
-
-%*******************************************************************
-%                        Acknowledgements
-%*******************************************************************
-\include{ack}
-
-%******************************************************************
-%                          Abstract
-%******************************************************************
-\include{abs}
-
-%******************************************************************
-%                         Contents list
-%******************************************************************
-%\figurespagefalse
-%\tablespagefalse
-\makecontents % Creats toc, lof, and lot
-
-%******************************************************************
-%                        Notations
-%******************************************************************
-\notations[4cm]{List of Symbols}
-
-%%********************************Mainmatter***********************
-% In mainmatter everything comes with arabic numbering
-\cleardoublepage
-\setcounter{page}{1}
-\pagenumbering{arabic}
-
-%******************************************************************
-%                         Chapters
-%******************************************************************
-\include{chapter_synopsis/introduction_synopsis}
-\include{chapter_synopsis/ctvf_synopsis}
-\include{chapter_synopsis/csph_synopsis}
+\input{chapter_synopsis/introduction_synopsis}
+\input{chapter_synopsis/ctvf_synopsis}
+\input{chapter_synopsis/csph_synopsis}
 % \include{chapter_synopsis/implementation_details}
-\include{chapter_synopsis/fsi_synopsis}
-\include{chapter_synopsis/rfc_synopsis}
-\include{chapter_synopsis/erosion_synopsis}
-% \include{chapter_tmp_misc/guide_to_writing}
+\input{chapter_synopsis/fsi_synopsis}
+\input{chapter_synopsis/rfc_synopsis}
+\input{chapter_synopsis/erosion_synopsis}
 
-% %****************************************************************
-% %                         Appendices
-% %****************************************************************
-% %% Additional, supporting material, such as codes, derivations, etc., can be placed in the appendix
-% \appendix
-% \chapter{Supporting Material}
+\backmatter%
 
-%******************************************************************
-%                         Bibliography or References
-%******************************************************************
-\bibliography{mylit}
+\begingroup
+\sloppy
+\printbibliography[notcategory=fullcited]%
+\endgroup
 
-%*******************************************************************
-%                         List of publications
-%******************************************************************
-\include{pub}
+\input{pub}
 
-%*******************************************************************
-%                        About author
-%*******************************************************************
-% \colophon % remove this command while using this file.
-
-% GAME OVER
-%*******************************************************************
 \end{document}
 
 %%% Local Variables:
