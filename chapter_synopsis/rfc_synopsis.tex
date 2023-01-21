@@ -1,5 +1,5 @@
 \FloatBarrier%
-\chapter{RFC}
+\chapter{Rigid-fluid coupling}
 \label{chap:rfc}
 We model the dynamics of rigid bodies in fluid flow and the coupled behavior of
 fluid and rigid bodies. Transport of arbitrarily shaped rigid bodies in fluid
@@ -57,7 +57,11 @@ regimes of the sliding case.
 We study the behavior of a circular cylinder of density $500$
 kg\,m\textsuperscript{-3} immersed in a hydrostatic tank under gravity. Since
 the density of the solid body is half of the fluid, the body will be half afloat
-while coming to rest.
+while coming to rest. \Cref{fig:snapshots-rising-solid-in-water} presents
+snapshot of a rising cylinder at time $t=15$ s and time variation of the center
+of mass with time. As can be seen from the figure, since the density of the
+cylinders is 500 kg\,m\textsuperscript{-3} the cylinder floats at half of its
+diameter.
 \begin{figure}[!htpb]
   \centering
     \includegraphics[width=0.4\textwidth]{images/rfc/images/water_entry_of_sphere/schematic}
@@ -81,7 +85,3 @@ while coming to rest.
     time variation of the center of mass is shown.}
 \label{fig:snapshots-rising-solid-in-water}
 \end{figure}
-\Cref{fig:snapshots-rising-solid-in-water} presents snapshot of a rising
-cylinder at time $t=15$ s and time variation of the center of mass with time. As
-can be seen from the figure, since the density of the cylinders is 500
-kg\,m\textsuperscript{-3} the cylinder floats at half of its diameter.

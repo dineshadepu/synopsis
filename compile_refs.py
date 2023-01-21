@@ -4,7 +4,7 @@ import subprocess, sys
 
 commands = [
     ['pdflatex', sys.argv[1] + '.tex'],
-    ['bibtex', sys.argv[1] + '.aux'],
+    ['biber', sys.argv[1]],
     ['pdflatex', sys.argv[1] + '.tex'],
     ['pdflatex', sys.argv[1] + '.tex']
 ]

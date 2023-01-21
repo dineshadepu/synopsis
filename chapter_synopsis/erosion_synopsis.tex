@@ -56,7 +56,7 @@ we see the square particles to be overlapping.
 % ====================================================================================
 % ====================================================================================
 \FloatBarrier%
-\subsection{Solid-particle erosion due to multiple square particles: with
+\section{Solid-particle erosion due to multiple square particles: with
   self interaction}
 \label{sec:erosion-multiple-impact-self-interact}
 We study the erosion of AL6061-T6 material due to multiple square particle
@@ -82,21 +82,14 @@ interact among themselves.
 \label{fig:mpe-1-full}
 \end{figure}
 \Cref{fig:mpe-1-full} shows the snapshot of the target during the square
-particle impacts. \Cref{fig:mpe-1-full-a} shows the penetration of body $1$
-into the ductile target, and initial impact of the top body with bottom one.
-\Cref{fig:mpe-1-full-b} shows the snapshot after body $1$ loses the contact
-with the target. \Cref{fig:mpe-4-full} shows the snapshot of the target during
-the impact for the computational model 1 with a single square particle. From
-\cref{fig:mpe-4-border}, we can see that the impacting body erodes the target
-symmetrically and after losing contact it moves away from the away without
-acquiring a rotation. However, for the two square particle impact case, the
-material is eroded more from the right side, this is due to the second square
-particle impact, this can be seen in \cref{fig:mpe-1-full}.
+particle impacts. \Cref{fig:mpe-1-full-a} shows the penetration of body $1$ into
+the ductile target, and initial impact of the top body with bottom one.
+\Cref{fig:mpe-1-full-b} shows the snapshot after both the bodies loses contact
+with the target. from \cref{fig:mpe-1-full}, we can see that more material is
+eroded from the right side, this is due to the upper square body impact
+impacting the lower body.
 
 
-
-The demonstrated test cases show that the developed software can handle the
-modeling erosion of a body in 2 and 3 dimensions. Further, we verified that the
-representation of projectiles with border particles reduces the time of
-computation. We established the current framework for handling erosion due to
-multiple particle impacts.
+We have demonstrated that the developed software can handle the modeling erosion
+of a body in 2 and 3 dimensions. Further, we verified that the representation of
+projectiles with border particles reduces the time of computation.

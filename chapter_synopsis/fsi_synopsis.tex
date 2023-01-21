@@ -1,17 +1,16 @@
-\FloatBarrier%
-\chapter{FSI}
+\chapter{Fluid-structure interaction}
 \label{sec:fsi}
 We model FSI with the transport velocity formulation scheme, as it is
 advantageous as it can solve the tensile instability issue in solid dynamics and
 ensure a homogeneous particle distribution in fluids without any additional
 artificial stress terms. We model FSI by the CTVF method, where both fluids and
 solid phases are modeled using CTVF alone. While the interaction is modeled
-using a dummy particle approach \citep{Adami2011}. We additionally consider the
+using a dummy particle approach \citep{Adami2012}. We additionally consider the
 force acting on fluid particles due to the interaction with the structure in the
 momentum equation. A similar modification is carried out to the solid particle
 momentum equation as well.
 
-\section{Fluid-structure interaction}\label{subsec:fsi}
+\section{Interaction force}\label{subsec:fsi}
 Coupling is handled in a straight forward way in SPH. While modelling the fluid
 phase and treating the fluid-structure interactions, the solid particles are
 assumed to be boundary particles. From the boundary handling given in Adami

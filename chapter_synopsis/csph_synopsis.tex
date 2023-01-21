@@ -1,5 +1,5 @@
 \FloatBarrier%
-\chapter{CSPH}
+\chapter{Collision SPH}
 \label{chap:csph}
 
 We model the collision between elastic solids using a penalty-based contact
@@ -8,13 +8,13 @@ eliminate the spurious interaction between bodies, which occurs while modeling
 with an SPH-based model. The contact force model follows the work of
 \textcite{mohseni2021particle}.
 
-The governing equations of including the new contact force term are:
+The governing equations including the new contact force term are:
 \begin{equation}
 \label{eqn:sph-continuity}
   \frac{\tilde{d}\rho_a}{dt} = \sum_{b \in A} \; \frac{m_b}{\rho_{b}} \; (
   \rho_{a} \; \tilde{\ten{u}}_{ab} \; + \;
   (\rho \; (\tilde{\ten{u}} \; - \;
-  \ten{u}))_{ab}) \; \cdot \nabla_{a} W_{ab},
+  \ten{u}))_{ab}) \; \cdot \nabla_{a} W_{ab}\, ,
 \end{equation}
 \begin{equation}
 \label{eqn:sph-momentum}
@@ -32,18 +32,18 @@ Here, $\ten{F}^{cont}_{a}$ is the force acting on particle $a$ due to
     secondary.}
 \label{fig:bodies_under_collision}
 \end{figure}
-contact with the other elastic bodies.
+contact with the other elastic bodies. This is shown in \cref{fig:bodies_under_collision}.
 
 The contact force $\ten{F}^{cont}_{a}$ is computed using
-\textcite{mohseni2021particle} formulation. The force acting on a particle $a$ of
-body A due to the interaction with the particles of body $B$ is into a normal
-and tangential component. The normal force ($\teng{F}_a^{n}$) on particle $a$
-due to the interaction with the particles $b$ of body $B$ is computed as,
+\textcite{mohseni2021particle} formulation. The force acting on a particle $a$
+of body A due to the interaction with the particles of body $B$ is into a normal
+and tangential component. The normal force $\teng{F}_a^{n}$ on particle $a$ due
+to the interaction with the particles $b$ of body $B$ is computed as,
 \begin{equation}
   \label{eq:contact-algorithm-normal}
   \ten{F}_a^n = k_r \delta_{n^{c}}^{a} \ten{n}_a^{c}.
 \end{equation}
-Here, the overlap $\delta_{n^{c}}^{a}$ is a normal vector, and
+Here, the $\ten{n}_a^{c}$ is a normal vector, and
 $\delta_{n^{c}}^{a}$ is an overlap which is computed using a smoothed distance
 formulation to handle arbitrarily shaped solids.
 
@@ -59,27 +59,7 @@ to the normal force through the Coulomb's law,
   \frac{\ten{F}_{a}^{t}}{|\ten{F}_{a}^{t}|}.
 \end{equation}
 This allows us to impose the sliding friction condition between the
-interacting solids. Finally, the total force acting on the particle $a$ due to
-the interaction with body $B$ is:
-\begin{equation}
-  \label{eq:contact-force}
-  \ten{F}_{a}^{\text{cont}} = \ten{F}_{a}^{n} + \ten{F}_{a}^{t}
-\end{equation}
-
-\begin{figure}[!htpb]
-  \centering
-  \includegraphics[width=0.3\textwidth]{images/csph/images/contact_force/contact_force_description_3}
-  \caption{Force transfer to the secondary particles $b$ from the primary body particle $a$}
-\label{fig:secondary_particle_contact_foce_transfer}
-\end{figure}
-An equal and opposite force of the same magnitude is applied to the closest
-secondary particle $b$ of $a$ as shown in
-\cref{fig:secondary_particle_contact_foce_transfer},
-\begin{equation}
-  \label{eq:contact-force}
-  \ten{F}_{b}^{\text{cont}} = - \ten{F}_{a}^{\text{cont}}.
-\end{equation}
-
+interacting solids.
 % =========================================== %
 % ------ Results start ---------------------- %
 % =========================================== %
@@ -93,16 +73,11 @@ secondary particle $b$ of $a$ as shown in
 %   \caption{Schematic of the initial placement of the frictional granular media including the impactor and walls}
 % \label{fig:results-stress-wave-propagation-part-II}
 % \end{figure}
-We demonstrate current solver abilities in handling the collision between the
-multiple elastic solids by simulating the elastic wave propagation in a granular
-media. We consider five identical disks placed at an angle of $45$ degrees,
-allowed to be impacted by a moving wall from right with a velocity $5.6$
-m\,s\textsuperscript{-1} in horizontal direction.
-\Cref{fig:de-stress-wave-compare} shows the particle plots of the granular discs
-with the stress fringes from the experiment \citep{guilkey2001improved}, and the
-simulation carried in the present study, and from the numerical study of
-\textcite{de2021modelling}, where the simulation is carried out using a total
-Lagrangian material point method (TLMPM).
+We demonstrate in \cref{fig:de-stress-wave-compare}, the current solver abilities in
+handling the collision between the multiple elastic solids by simulating the
+elastic wave propagation in a granular media. We consider five identical disks
+placed at an angle of $45$ degrees, allowed to be impacted by a moving wall from
+right with a velocity $5.6$ m\,s\textsuperscript{-1} in horizontal direction.
 \begin{figure}[!htpb]
   \centering
   \begin{subfigure}{1.0\textwidth}

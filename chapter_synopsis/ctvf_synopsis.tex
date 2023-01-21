@@ -150,7 +150,7 @@ $\alpha_{\textrm{edac}}=0.5$ is recommended as suggested in~\citep{PRKP:edac-sph
 
 
 \FloatBarrier%
-\subsection{Lid driven cavity}
+\section{Lid driven cavity}
 \label{sec:ldc}
 
 We evaluate the ability of the proposed scheme to handle solid wall boundary
@@ -164,18 +164,6 @@ fluid. The speed of sound of the fluid particle is set to $c = 10 U_{max}$. We
 use the summation density to compute the density. The viscosity of the fluid
 is set through the Reynolds number of the flow, $\nu = \frac{Re}{U}$. No
 artificial viscosity is used in the current problem.
-
-%
-\begin{figure}
-  \centering
-  \includegraphics[width=0.5\linewidth]{figures/ctvf/figures/cavity/uv_re100}
-  \caption{Velocity profiles $u$ vs.\ $y$ and $v$ vs.\ $x$ for the
-    lid-driven-cavity problem at $Re=100$ with three initial particle
-    arrangement of $50 \times 50$, $100 \times 100$, and $150 \times
-    150$.}%
-  \label{fig:ldc:uv_re100}
-\end{figure}
-%
 \begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth]{figures/ctvf/figures/cavity/uv_re1000}
@@ -198,11 +186,9 @@ scheme is able to predict the velocity profiles well.
 
 
 \FloatBarrier%
-\subsection{Oscillating plate}
+\section{Oscillating plate}
 \label{sec:oscillating-plate}
-We consider a thin oscillating plate that is clamped on one side.
-An oscillating plate with a length of $0.2$ m and a height of $0.02$ m is
-initially given with a velocity profile of,
+We consider an oscillating plate initially with a velocity profile of,
 %
 \begin{equation*}
   v_y(x) = V_f \, c_0 \frac{F(x)}{F(L)},
@@ -214,30 +200,12 @@ is given by,
   (\sin(kL) - \sinh(kL)) \, (\sinh(kx) - \sin(kx)).
 \end{multline}
 %
-In the present example $kL$ is 1.875. The material properties of the plate are
-as follows, Young's modulus $E=2.0\times 10^6$ Pa, a Poisson's ratio of
-$\nu=0.3975$. $c_0$ is speed of sound, and a density of $\rho=1000$
-kg\,m\textsuperscript{-3}, as done in~\citep{gray-ed-2001}.  In all the cases
-simulated here, we use an $\alpha$ of $1$ for artificial viscosity.
-
-This is further demonstrated by a case where an oscillating plate of length of
-$0.2$ m and a height of $0.02$ m is simulated for a time of $0.22$ seconds.
-Similarly, another case where plate of height $0.01$ m and a width of $0.2$ m is
-run for a time of $0.51$ s.
-\Cref{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-22} and
-\cref{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-01} shows particles of the
-plate at time $t=0.22$ s and $0.51$ s of these two cases respectively. As we can
-see from the figure that the plate is free of numerical fracture, thus the
-tensile instability is eliminated.
-%
-%
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\columnwidth]{figures/ctvf/figures/oscillating_plate/etvf_sun2019_l_0_2_h_0_02}
-  \caption{Oscillating plate at time $t=0.22$s with a length of $0.2$m and
-    height of $0.02$m simulated with SPST with CTVF scheme.}
-\label{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-22}
-\end{figure}
+The material properties of the plate are as follows, Young's modulus
+$E=2.0\times 10^6$ Pa, a Poisson's ratio of $\nu=0.3975$. $c_0$ is speed of
+sound, and a density of $\rho=1000$ kg\,m\textsuperscript{-3}.
+\cref{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-01} shows the oscillating
+plate at time $0.51$ s. As we can see from the figure that the current solver is
+free of tensile instability.
 %
 %
 \begin{figure}[!htp]
@@ -247,36 +215,3 @@ tensile instability is eliminated.
     height of $0.01$m simulated with SPST with CTVF scheme.}
 \label{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-01}
 \end{figure}
-
-The accuracy of the current scheme is evaluated by comparing with the
-analytical results and with a convergence study. In
-\cref{table:compare-analytical-with-simulated-h-l-0-1} we compare the time
-period for the oscillation by the analytical and the numerical results with
-varying $V_f$, where we consider an oscillating plate whose $H/L$ ratio is
-$0.1$. The difference between the analytical result and the numerical result
-is due to the fact that the analytical results are based on thin plate theory
-where as the plate considered here has a finite thickness. Further, we can see
-that the current numerical results are in agreement with the previously
-reported numerical results~\citep{gray-ed-2001, zhang_hu_adams17}. In
-\cref{fig:oscillating:ipst_convergence_plot}, we have performed a convergence
-study of an oscillating plate, with a $\nu=0.3975$, and $V_f=0.05$
-m\,s\textsuperscript{-1}, and IPST is used for particle homogenization. The trend of
-the current scheme matches well with the other updated Lagrangian SPH
-schemes~\citep{gray-ed-2001, zhang_hu_adams17}. Hence the current scheme is
-able to work with different PST methods and removes the tensile instability.
-
-\begin{table}[!htpb]
-\centering
-\begin{tabular}{c c c c c}
-  \hline
-  $V_f$ & 0.001 & 0.01 & 0.03 & 0.05 \\
-  \hline
-  $\text{T}_{\mathrm{CTVF}}$ & 0.284 & 0.283 & 0.283 & 0.284 \\
-  $\text{T}_{\mathrm{GTVF}}$ & 0.284 & 0.283 & 0.284 & 0.285 \\
-  $\text{T}_{\mathrm{analytical}}$ & 0.254 & 0.252 & 0.254 & 0.254
-\end{tabular}
-\caption{Comparison between the CTVF and the analytical solution for the time
-  period of the oscillating plate with a length of $0.2$m and height of
-  $0.02$m with various $V_f$}
-\label{table:compare-analytical-with-simulated-h-l-0-1}
-\end{table}
