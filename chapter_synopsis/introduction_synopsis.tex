@@ -1,0 +1,82 @@
+\chapter{Synopsis}
+\label{chap:synopsis}
+
+
+
+\section{Introduction}
+\label{sec:intro}
+In the current chapter we model the collision between elastic bodies. Modeling
+the collision among elastic solids allows us to handle the interaction between
+the target and the impactor when they are assumed as elastic or elastic-plastic.
+An SPH based solution leads to unphysical interactions in modeling the collision
+of objects when they are close by but not touching. Further, SPH model does not
+incorporate friction between the colliding bodies. In the current chapter, a
+contact force model is incorporated into the existing solver to handle the
+interaction between the colliding solids. Specifically, we consider bodies with
+arbitrary shapes.
+
+
+The collision of arbitrary solid bodies occurs everywhere around us. Apart
+from the elastic collision of bodies, other important examples include surface
+erosion, waterjet machining \citep{natarajan2020abrasive}, and machining
+processes \citep{islam2020numerical} to note a few. It is important to be able
+to simulate such problems accurately.
+
+% When body A discretized into n particles is colliding a body B which is
+% discretized in to m particles, above techniques use the particles in B to
+% compute the accelerations of density and velocity of particles in A. A few
+% drawbacks of this approach is, the bodies come in to contact even when the
+% bodies are physically not touching, and the no frictional modeling is modeled.
+% \cite{yan2021simulation} has proposed a interfacial SPH scheme , where each
+% elastic body uses their own particles in computation of divergence, momentum
+% and strain rate. While, the bodies interact by a repulsive force inspired from
+% Ansys. Where they have shown the improvement on modeling the collision with
+% different examples. Yan has considered Gray SPH which is not so great with
+% kernel invariance as it shows tensile instability with a few kernels as shown
+% by Roth 2020. Also the contact force model didn't incorporate the frictional
+% part of the collision. Further the contact force has a influence of 2h radius,
+% implies there would be a force acting on the interacting bodies though they
+% are not touching physically.
+
+% The contact force model used in Yan is inspired from ANSYS model and is given.
+% A similar work is done by \cite{vyas2021collisional}, where the author models
+% the interaction between a circular rigid body impacting a target surface. In
+% his work, author proposes a non-linear penalty based force model which could
+% handle friction as well and studies the rebounding characteristic of the
+% impactor. Here, the author studies the post collision behaviour of the
+% circular rigid body which is interacting the elastic plastic solid at
+% different incident angles. \cite{mohseni2021particle} proposed an advanced
+% version of the collision model where he models the interaction between a rigid
+% body with a brittle solids and models the erosion of the brittle solid.
+
+% Finally the current model comes into place only when the material interfaces
+% are touching unlike what Yan's contact force model and conventional SPH. We
+% also check the invariance of the current scheme in modeling the collisions for
+% different types of kernels used.
+
+
+In the current work, the collision between elastic solids is modeled using a
+penalty-based contact force model. A contact force based approach for collision
+handling will eliminate the spurious interaction between bodies, which occurs
+while modeling with an SPH-based model. Unlike the approach of
+\citep{yan2021simulation}, the proposed contact force model can handle friction
+between the solids as well. The bodies themselves are elastic and this is
+simulated using the CTVF SPH method \citep{adepu2021corrected}. The
+penalty-based force considered here is the one proposed by
+\cite{mohseni2021particle}. In the original model proposed by
+\citep{mohseni2021particle}, the contact force is between a primary body and a
+secondary body. In \citep{mohseni2021particle}, the primary body is usually
+treated as the rigid body and the body on which the erosion is simulated is
+treated as secondary. It is not clear what would happen if both bodies were
+elastic or if there is no clear way to distinguish between a primary and
+secondary body. We explore these questions in the present work. The work of
+\cite{mohseni2021particle} takes inspiration from that of
+\cite{vyas2021collisional} where too there is a clear distinction between
+primary and secondary bodies. \cite{vyas2021collisional} also consider the
+collision between a rigid and elastic body. In the present work we only
+implement the collision model of \citep{mohseni2021particle} due to its
+simplicity. The model proposed by \cite{vyas2021collisional} is more complex to
+implement. Several examples are simulated to validate the current scheme,
+ranging from simulations compared with FEM, analytical results as well as
+experimental. We next look at the numerical method used to model the collision
+among the elastic solids.

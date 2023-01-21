@@ -1,0 +1,96 @@
+%============================= abs.tex================================
+\begin{Abstract}
+  In the present work, we develop a coupled formulation of Smoothed Particle
+  Hydrodynamics (SPH) - Discrete Element Method (DEM) to handle fluid and solid
+  mechanics problems. The framework is applied to model several different types
+  of physics, such as fluid dynamics, elastic-plastic dynamics, rigid body
+  dynamics, rigid-fluid coupling (RFC), fluid-structure interaction (FSI), and
+  solid particle erosion (SPE). Applications such as abrasive water jet
+  machining, fluid-bed reactors, and sediment transport are a few areas where
+  these physical phenomena are dominant. We use SPH to model the fluid and
+  elastic-plastic dynamics, while DEM handles the interaction among the
+  arbitrarily shaped bodies. We implement the current work in the open-source
+  framework PySPH. We use an automan package to automate all our results and
+  make it fully reproducible. We produce an open-source framework of
+  the current formulation in handling all these different physical processes.
+
+
+  We first develop a technique in SPH to model fluid and elastic dynamics.
+  Particle shifting techniques (PST) in SPH have been used to improve the
+  accuracy of the SPH method. Shifting ensures that the particles are
+  distributed homogeneously in space. This may be performed by moving the
+  particles using a transport velocity. In this work, we propose an extension
+  to the class of Transport Velocity Formulation (TVF) methods. We derive the
+  equations in a consistent manner and show that there are additional terms that
+  significantly improve the accuracy of the method. In particular, we apply this
+  to the Entropically Damped Artificial Compressibility SPH method. We identify
+  the free-surface particles and their normals using a simple approach and
+  thereby adapt the method for free-surface problems. We show how the new method
+  can be applied to the problem of elastic dynamics. We consider a suite of
+  benchmark problems involving both fluid and solid mechanics to demonstrate the
+  accuracy and applicability of the method.
+
+  We extend the CTVF technique to handle the collision among the frictional
+  elastic solids using a contact force model. Classically, smoothed particle
+  hydrodynamics (SPH) is used to model collision between elastic solids, which
+  involves handling the deformation of bodies and the interaction with other
+  bodies. However, this does not allow one to incorporate friction and also
+  subjects the solids to unphysical interaction when the bodies are nearby but
+  not in actual contact. In the current work, we incorporate an efficient
+  contact force model into a variant of the updated-Lagrangian SPH to model the
+  interaction between elastic solids. This approach models friction as well as
+  eliminates the spurious interaction between nearby bodies. The current model
+  is validated with several numerical examples involving a collision between two
+  and multiple elastic solids, with and without friction. These results compare
+  well with finite element modeling (FEM), analytical, and experimental studies.
+  We discuss the implementation details of contact force formulation to handle contact
+  between the colliding bodies in PySPH. The model is easy to incorporate in any
+  updated-Lagrangian SPH scheme.
+
+
+  We further study the deformation of elastic structures under hydrodynamic
+  loads with the CTVF model. CTVF is adopted to handle both fluid and structural
+  dynamics, as it can eliminate inhomogeneous particle distribution in fluid
+  flow and tensile instability in elastic structures without any additional
+  terms. A ghost particle-based approach is used to handle the coupling between
+  the fluid and solid phases. The proposed scheme is verified by simulating a
+  few test cases, which are validated with exact analytical solutions. An
+  elastic plate deformation due to dam-breaking fluid is simulated as an
+  application. We outline sub-stepping algorithm used to update the states of
+  two different materials for computationally efficient simulation.
+
+  Next, we study the two-way coupling between the rigid body and the fluid flow
+  using a particle-based framework. The interaction between the rigid bodies is
+  handled with the discrete element method (DEM), where the contact force model
+  developed to handle the collision between arbitrarily shaped elastic solids is
+  used. The fluid phase is modeled with CTVF. The interaction between the fluid
+  and rigid bodies is modeled using a dummy particle approach which is similar
+  to handling the interaction between the fluid and the elastic structure. The
+  accuracy of the developed method is evaluated via several numerical examples
+  involving analytical and experimental results. The rigid-rigid interaction
+  part of the solver is validated through the study of rolling and sliding body
+  cases. The collapse of a stack of cylinders under gravity is studied and
+  compared against its experimental counterpart. The rigid-fluid interaction is
+  studied with the water entry of a rigid cube and with a rising cylindrical body
+  case in the hydrostatic water tank.
+
+  We finally model the erosion of a ductile solid due to the impact of multiple
+  arbitrarily shaped projectiles. We model the elastic-plastic behavior of the
+  ductile solid by incorporating a Johson-Cook constitutive model in CTVF. We
+  adapt the contact force between the elastic bodies formulation to
+  rigid-elastic solids. We further build a framework that can handle erosion of
+  the target due to the impact of multiple bodies, which can interact or do not
+  interact among themselves. 2D and 3D numerical cases are simulated to
+  demonstrate the developed framework abilities. Erosion of a 2D ductile target
+  due to multiple square particle impacts, with cases where square particles can
+  self-interact and with no self-interaction, is simulated. A rotating spherical
+  particle impacting a ductile target at different impact velocities is
+  considered part of the 3D case.
+
+%
+%
+%
+%
+%
+\end{Abstract}
+%=======================================================================

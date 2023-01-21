@@ -1,0 +1,4 @@
+warning: /home/dinesh/phd/code_phd/pysph/pysph/base/nnps_base.pxd:27:13: 'INT_MAX' redeclared 
+warning: /home/dinesh/.pysph/source/py3.8-linux-x86_64/m_c5915f8c41cec199db96f705787ececd.pyx:970:52: local variable 's_p' referenced before assignment
+warning: /home/dinesh/.pysph/source/py3.8-linux-x86_64/m_c5915f8c41cec199db96f705787ececd.pyx:1002:52: local variable 's_p' referenced before assignment
+warning: /home/dinesh/phd/code_phd/pysph/pysph/base/nnps_base.pxd:27:13: 'INT_MAX' redeclared 

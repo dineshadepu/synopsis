@@ -1,0 +1,282 @@
+\FloatBarrier%
+\chapter{Numerical modeling of fluid and elastic dynamics}
+\label{chap:ctvf}
+
+\begin{equation}
+  \label{eq:ce}
+  \frac{d \rho}{d t} = - \rho \; \frac{\partial u_i}{\partial x_i},
+\end{equation}
+and conservation of linear momentum,
+\begin{equation}
+  \label{eq:me}
+  \frac{d u_i}{d t} = \frac{1}{\rho} \; \frac{\partial \sigma_{ij}}{\partial x_j}
+  + g_i,
+\end{equation}
+
+where $\rho$ is the density, $u_i$ is the $i$\textsuperscript{th} component of
+the velocity field, $x_j$ is the $j$\textsuperscript{th} component of the
+position vector, $g_i$ is the component of body force per unit mass and
+$\sigma_{ij}$ is stress tensor.
+
+
+The stress tensor is split into isotropic and deviatoric parts,
+\begin{equation}
+  \label{eq:stress_tensor_decomposition}
+  \sigma_{ij} = - p \; \delta_{ij} + \sigma'_{ij},
+\end{equation}
+%
+where $p$ is the pressure, $\delta_{ij}$ is the Kronecker delta function, and
+$\sigma'_{ij}$ is the deviatoric stress.
+
+The Jaumann's formulation for Hooke's stress provides us with the rate of
+change of deviatoric stress,
+\begin{equation}
+  \label{eq:jaumann-stress-rate}
+  \frac{d \sigma'_{ij}}{dt} = 2G (\dot{\epsilon}_{ij} - \frac{1}{3}
+  \dot{\epsilon}_{kk} \delta_{ij}) + \sigma^{'}_{ik}  \Omega_{jk} +
+  \Omega_{ik} \sigma^{'}_{kj},
+\end{equation}
+where $G$ is the shear modulus, $\dot{\epsilon}_{ij}$ is the strain rate tensor,
+\begin{equation}
+  \label{eq:strain-tensor}
+  \dot{\epsilon}_{ij} = \frac{1}{2} \bigg(\frac{\partial u_i}{\partial x_j} +
+  \frac{\partial u_j}{\partial x_i} \bigg),
+\end{equation}
+and $\Omega_{ij}$ is the rotation tensor,
+\begin{equation}
+  \label{eq:rotational-tensor}
+  \Omega_{ij} = \frac{1}{2} \bigg(\frac{\partial u_i}{\partial x_j} -
+  \frac{\partial u_j}{\partial x_i} \bigg).
+\end{equation}
+
+For a weakly-compressible or incompressible fluid, a viscous force is added:
+\begin{equation}
+  \label{eq:fluid-stress-decomposition}
+  \sigma_{ij} = - p \delta_{ij} + 2 \eta \frac{\partial u_i}{\partial x_j}
+\end{equation}
+where $\eta$ is the kinematic viscosity of the fluid.
+
+In both fluid and solid modelling the pressure is computed using an
+isothermal equation of state, given as,
+\begin{equation}
+  \label{eq:pressure-equation}
+  p = K \bigg(\frac{\rho}{\rho_{0}} - 1 \bigg),
+\end{equation}
+where $K = \rho_{0} c_0^2$ is the bulk modulus. Here, the constants $c_0$ and
+$\rho_0$ are the reference speed of sound and density, respectively. For solids,
+$c_0$ is computed as $\sqrt{\frac{E}{3 (1 - 2 \nu)\rho_{0}}}$, $\nu$ is the
+Poisson ratio, $E$ is the Young's modulus.
+
+\section{Numerical method}
+In CTVF we move the particles with a \emph{transport velocity},
+$\tilde{\ten{u}}$. The material derivative in this case is written as,
+\begin{equation}
+  \label{eq:modified-material-derivative}
+  \frac{\tilde{d} }{d t} = \frac{\partial }{\partial t} +
+  \tilde{u}_j \frac{\partial }{\partial x_j}.
+\end{equation}
+
+We therefore recast the governing equations to incorporate the transport
+velocity. The new governing equations are,
+\begin{equation}
+  \label{eq:ce-tvf}
+  \frac{\tilde{d} \rho}{d t} =
+  - \rho \frac{\partial \tilde{u}_j}{\partial x_j} +
+  \frac{\partial (\rho (\tilde{u}_j - u_j))}{\partial x_j}.
+\end{equation}
+We therefore write the momentum equation as,
+\begin{equation}
+  \label{eq:mom-tvf}
+  \frac{\tilde{d} u_i}{d t} =
+  \frac{\partial}{\partial x_j} (u_i (\tilde{u}_j - u_j))
+  - u_i \frac{\partial}{\partial x_j} (\tilde{u}_j - u_j)
+  + g_i
+  +\frac{1}{\rho} \frac{\partial \sigma_{ij}}{\partial x_j}.
+\end{equation}
+We note that this equation encompasses both fluid dynamics as well as elastic
+dynamics by simply changing the way $\sigma_{ij}$ is modeled. The first term
+on the right-hand-side of \cref{eq:mom-tvf} is the additional artificial
+stress term that is included in the TVF~\citep{Adami2013}. The second term
+involves the divergence of the transport velocity field. In the case of the
+TVF, the term includes a background pressure acceleration that is of the form,
+\begin{equation}
+  \label{eq:tvf-accel}
+  \bigg(\frac{d \ten{u}_a}{dt}\bigg)_{c} = - p^0_a \sum_{b \in N(a)}
+  \frac{m_b}{\rho_b^2} \nabla W(\ten{r}_{ab}, \tilde{h}_{ab}),
+\end{equation}
+where $p^0_a$ is the background pressure for the given particle $a$,
+$\ten{r}_{ab} = \ten{r}_a - \ten{r}_b$, $\tilde{h}_{ab} = (h_a + h_b)/2$, and
+index $b$ refers to the neighbors of particle $a$. The additional terms arising
+while adjusting the continuity and momentum to the transport velocity are
+certainly not zero and therefore this should not be ignored. We investigate the
+importance of including these terms in \cref{sec:results}. We note that in the
+case of elastic dynamics that these terms are negligible and do not make a
+significant difference. This has also been pointed out by
+\cite{zhang_hu_adams17}.
+
+The Jaumann stress rate is also similarly modified to account for the
+transport velocity as,
+\begin{multline}
+  \label{eq:modified-jaumann-stress-rate}
+  \frac{\tilde{d} \sigma'_{ij}}{dt} = 2G (\dot{\epsilon}_{ij} - \frac{1}{3}
+  \dot{\epsilon}_{kk} \delta_{ij}) + \sigma^{'}_{ik}  \Omega_{jk} +
+  \Omega_{ik} \sigma^{'}_{kj} + \\
+  \frac{\partial}{\partial x_k}\big(\sigma^{'}_{ij}  (\tilde{u}_k - u_k)\big)
+  - \sigma^{'}_{ij} \frac{\partial}{\partial x_k} (\tilde{u}_k - u_k).
+\end{multline}
+
+
+The original EDAC-SPH ~\citep{edac-sph:cf:2019} scheme adjusted to
+the transport velocity written as,
+\begin{equation}
+  \label{eq:edac-p-evolve}
+  \frac{\tilde{d} p}{d t} =
+  (p -\rho c_s^2)
+    \text{div}(\ten{u})
+  - p \; \text{div}(\tilde{\ten{u}})
+    + \text{div}(p (\tilde{\ten{u}} - \ten{u}))
+    + \nu_{edac}  \nabla^2 p.
+\end{equation}
+where $\nu_{edac}$ is a viscosity parameter for the smoothing of the pressure
+and $c_s$ is the (artificial) speed of sound.
+%
+The value of $\nu_{edac}$ is,
+\begin{equation}
+  \label{eq:nu-edac}
+  \nu_{edac} = \frac{\alpha_{\textrm{edac}} h c_s}{8},
+\end{equation}
+where $h$ is the smoothing length of the kernel and a value of
+$\alpha_{\textrm{edac}}=0.5$ is recommended as suggested in~\citep{PRKP:edac-sph-iccm2015}.
+
+
+\FloatBarrier%
+\subsection{Lid driven cavity}
+\label{sec:ldc}
+
+We evaluate the ability of the proposed scheme to handle solid wall boundary
+conditions by simulating a lid-driven cavity. The lid-driven cavity is a
+classic problem that can be challenging to simulate in the context of the SPH.
+It has been simulated by \citep{Adami2013}, \citep{huang_kernel_2019},
+\citep{edac-sph:cf:2019} to note a few. A rectangular cavity with length 1 m
+which is filled with fluid is constrained by four walls. Top wall has a
+velocity of $U = 1 $ m\,s\textsuperscript{-1}. A unit density is assumed for the
+fluid. The speed of sound of the fluid particle is set to $c = 10 U_{max}$. We
+use the summation density to compute the density. The viscosity of the fluid
+is set through the Reynolds number of the flow, $\nu = \frac{Re}{U}$. No
+artificial viscosity is used in the current problem.
+
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/ctvf/figures/cavity/uv_re100}
+  \caption{Velocity profiles $u$ vs.\ $y$ and $v$ vs.\ $x$ for the
+    lid-driven-cavity problem at $Re=100$ with three initial particle
+    arrangement of $50 \times 50$, $100 \times 100$, and $150 \times
+    150$.}%
+  \label{fig:ldc:uv_re100}
+\end{figure}
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/ctvf/figures/cavity/uv_re1000}
+  \caption{Velocity profiles for the lid-driven-cavity using the steady state
+    simulation procedure for $Re = 1000$ with initial partial arrangement of
+    $50 \times 50$, $100 \times 100$, and $200 \times 200$ compared with
+    the results of~\citep{ldc:ghia-1982}.}%
+\label{fig:ldc:uv_re1000}
+\end{figure}
+
+We now study convergence of the method as we vary the
+resolution. \Cref{fig:ldc:uv_re100} and \cref{fig:ldc:uv_re1000} show the
+center-line velocities $u$ versus $y$ and $v$ versus $x$ for the Reynolds
+numbers 100 and 1000 respectively. For the $Re=100$ case we use three
+different resolutions of $50\times 50, 100 \times 100$ and $150 \times
+150$. For the $Re=1000$ case, we use an initial $50 \times 50$,
+$100 \times 100$, and $200 \times 200$ grid of particles. These are compared
+against the results of \citep{ldc:ghia-1982}. As we can see that the current
+scheme is able to predict the velocity profiles well.
+
+
+\FloatBarrier%
+\subsection{Oscillating plate}
+\label{sec:oscillating-plate}
+We consider a thin oscillating plate that is clamped on one side.
+An oscillating plate with a length of $0.2$ m and a height of $0.02$ m is
+initially given with a velocity profile of,
+%
+\begin{equation*}
+  v_y(x) = V_f \, c_0 \frac{F(x)}{F(L)},
+\end{equation*}
+where $V_f$ varies for different cases. $L$ is the length of the plate. $F(x)$
+is given by,
+\begin{multline}
+  F(x) = (\cos(kL) + \cosh(kL)) \, (\cosh(kx) - \cos(kx)) + \\
+  (\sin(kL) - \sinh(kL)) \, (\sinh(kx) - \sin(kx)).
+\end{multline}
+%
+In the present example $kL$ is 1.875. The material properties of the plate are
+as follows, Young's modulus $E=2.0\times 10^6$ Pa, a Poisson's ratio of
+$\nu=0.3975$. $c_0$ is speed of sound, and a density of $\rho=1000$
+kg\,m\textsuperscript{-3}, as done in~\citep{gray-ed-2001}.  In all the cases
+simulated here, we use an $\alpha$ of $1$ for artificial viscosity.
+
+This is further demonstrated by a case where an oscillating plate of length of
+$0.2$ m and a height of $0.02$ m is simulated for a time of $0.22$ seconds.
+Similarly, another case where plate of height $0.01$ m and a width of $0.2$ m is
+run for a time of $0.51$ s.
+\Cref{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-22} and
+\cref{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-01} shows particles of the
+plate at time $t=0.22$ s and $0.51$ s of these two cases respectively. As we can
+see from the figure that the plate is free of numerical fracture, thus the
+tensile instability is eliminated.
+%
+%
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figures/ctvf/figures/oscillating_plate/etvf_sun2019_l_0_2_h_0_02}
+  \caption{Oscillating plate at time $t=0.22$s with a length of $0.2$m and
+    height of $0.02$m simulated with SPST with CTVF scheme.}
+\label{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-22}
+\end{figure}
+%
+%
+\begin{figure}[!htp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figures/ctvf/figures/oscillating_plate/etvf_sun2019_l_0_2_h_0_01}
+  \caption{Oscillating plate at time $t=0.51$s with a length of $0.2$m and
+    height of $0.01$m simulated with SPST with CTVF scheme.}
+\label{fig:oscillating-plate:etvf-sun2019-l-0-2-h-0-01}
+\end{figure}
+
+The accuracy of the current scheme is evaluated by comparing with the
+analytical results and with a convergence study. In
+\cref{table:compare-analytical-with-simulated-h-l-0-1} we compare the time
+period for the oscillation by the analytical and the numerical results with
+varying $V_f$, where we consider an oscillating plate whose $H/L$ ratio is
+$0.1$. The difference between the analytical result and the numerical result
+is due to the fact that the analytical results are based on thin plate theory
+where as the plate considered here has a finite thickness. Further, we can see
+that the current numerical results are in agreement with the previously
+reported numerical results~\citep{gray-ed-2001, zhang_hu_adams17}. In
+\cref{fig:oscillating:ipst_convergence_plot}, we have performed a convergence
+study of an oscillating plate, with a $\nu=0.3975$, and $V_f=0.05$
+m\,s\textsuperscript{-1}, and IPST is used for particle homogenization. The trend of
+the current scheme matches well with the other updated Lagrangian SPH
+schemes~\citep{gray-ed-2001, zhang_hu_adams17}. Hence the current scheme is
+able to work with different PST methods and removes the tensile instability.
+
+\begin{table}[!htpb]
+\centering
+\begin{tabular}{c c c c c}
+  \hline
+  $V_f$ & 0.001 & 0.01 & 0.03 & 0.05 \\
+  \hline
+  $\text{T}_{\mathrm{CTVF}}$ & 0.284 & 0.283 & 0.283 & 0.284 \\
+  $\text{T}_{\mathrm{GTVF}}$ & 0.284 & 0.283 & 0.284 & 0.285 \\
+  $\text{T}_{\mathrm{analytical}}$ & 0.254 & 0.252 & 0.254 & 0.254
+\end{tabular}
+\caption{Comparison between the CTVF and the analytical solution for the time
+  period of the oscillating plate with a length of $0.2$m and height of
+  $0.02$m with various $V_f$}
+\label{table:compare-analytical-with-simulated-h-l-0-1}
+\end{table}

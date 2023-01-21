@@ -1,0 +1,118 @@
+\FloatBarrier%
+\chapter{Erosion}
+\label{chap:erosion}
+We develop a numerical implementation to study the solid particle erosion of a
+ductile target. We follow the numerical model proposed in
+\citep{dong2016smoothed}. We utilize the CTVF to model the elastic behavior of
+the ductile target, while the collision between the rigid bodies, elastic bodies
+to modeled using DEM. We extend the developed numerical method to handle plastic
+using a Johnson-Cook constitutive law. The objective of this work is to develop
+an open-source framework to handle solid-particle erosion in two and three
+dimensions. The solver should handle erosion of the target due to multiple
+impacting particles. Here, The impacting particles may be interacting
+themselves.
+
+
+% ====================================================================================
+% ====================================================================================
+\FloatBarrier%
+\section{Solid-particle erosion due to multiple square particles: with no self
+  interaction}
+\label{sec:res:mpe-2}
+
+\Cref{fig:mpe-2-full} shows the snapshots for computational model 2. The target
+and the body are discretized into $12708$ particles in the current case. From
+\cref{fig:mpe-2-full,fig:mpe-2-border}, we can see that the both computational
+models result in same erosion of the target, which is verified qualitatively by
+comparing the eroded regions of of the target. For a quantitative validation, we
+compare the y component of the center of mass of the bottom square particle with
+time, when simulated using both the models in \cref{fig:mpe-2-ycom-vs-t}. From
+\cref{fig:mpe-2-ycom-vs-t}, we can see that both the computational models give
+the same result. Though both the models result in same erosion of the target,
+however, computational model 1 is $2.3$ times faster than computational model 2.
+This is due to boundary particle representation in the 1st model. A clearer
+description is shown in \cref{table:mpe-2-time-comparison}.
+\begin{figure}[!htpb]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/erosion/figures/multi_body_erosion_example_2/all_particles_no_self_intersection/all_bodies_time0.pdf}
+    \subcaption{}
+    \label{fig:mpe-2-full-a}
+  \end{subfigure}
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/erosion/figures/multi_body_erosion_example_2/all_particles_no_self_intersection/all_bodies_time1.pdf}
+    \subcaption{}
+    \label{fig:mpe-2-full-b}
+  \end{subfigure}
+  \caption{Erosion of a ductile target due to the impact of two non-interacting
+    square particles with computational model 2.}
+\label{fig:mpe-2-full}
+\end{figure}
+
+% ====================================================================================
+% ====================================================================================
+\FloatBarrier%
+\section{Solid-particle erosion due to multiple square particles: with
+  self interaction}
+\label{sec:erosion-multiple-impact-self-interact}
+
+\Cref{fig:mpe-1-border} shows the snapshot of the target during the impact for
+the computational model 1. \Cref{fig:mpe-1-border-a} shows the penetration of
+body $1$ into the ductile target, and initial impact of the body $2$ with body
+$1$. \Cref{fig:mpe-1-border-b} shows the snapshot after body $1$ loses the
+contact with the target. \Cref{fig:mpe-4-border} shows the snapshot of the
+target during the impact for the computational model 1 with a single square
+particle. From \cref{fig:mpe-4-border}, we can see that the impacting body
+erodes the target symmetrically and after losing contact it moves away from the
+away without acquiring a rotation. However, for the two square particle impact
+case, the material is eroded more from the right side, this is due to the second
+square particle impact, this can be seen in \cref{fig:mpe-1-border}.
+
+We repeat the same experiment with computational model 2. The erosion of the
+ductile solid with computational model 2 is shown in \cref{fig:mpe-1-full}. From
+\cref{fig:mpe-1-full,fig:mpe-1-border}, we can see that both the computational
+models results in same erosion pattern. For quantitatively validation for the
+similarity, we plot center of mass of the 1st body with time in
+\cref{fig:mpe-1-ycom-vs-t}. From \cref{fig:mpe-1-ycom-vs-t}, we can see that
+both 1 behaves same in both the computational models. The performance comparison
+of the proposed computational models are shown in
+\cref{table:mpe-1-time-comparison}.
+\begin{figure}[!htpb]
+  \centering
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/erosion/figures/multi_body_erosion_example_1/all_particles_self_intersection/all_bodies_time0.pdf}
+    \subcaption{}
+    \label{fig:mpe-1-full-a}
+  \end{subfigure}
+  \begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{figures/erosion/figures/multi_body_erosion_example_1/all_particles_self_intersection/all_bodies_time1.pdf}
+    \subcaption{}
+    \label{fig:mpe-1-full-b}
+  \end{subfigure}
+  \caption{Erosion of a ductile target due to the impact of two interacting
+    square particles with computational model 2.}
+\label{fig:mpe-1-full}
+\end{figure}
+
+\begin{table}[!htpb]
+\centering
+\begin{tabular}{c c c c c}
+  \hline
+  Model & No. particles & Time taken & Scale up  \\
+  \hline
+  Computational model 1 & $8476$ & $239.36$ sec & $1.956$ \\
+  Computational model 2 & $12708$ & $468.21$ sec & 1 \\
+\end{tabular}
+\caption{CPU time comparison of computational model 1 and computational model 2
+  for solid particle erosion for interacting particles.}
+\label{table:mpe-1-time-comparison}
+\end{table}
+The demonstrated test cases show that the developed software can handle the
+modeling erosion of a body in 2 and 3 dimensions. Further, we verified that the
+representation of projectiles with border particles reduces the time of
+computation. We established the current framework for handling erosion due to
+multiple particle impacts.

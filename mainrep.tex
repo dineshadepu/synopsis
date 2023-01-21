@@ -1,0 +1,268 @@
+%%% Time-stamp: <mainrep.tex 19:57, 17 Jul 2016 by P Sunthar>
+%%% $Log:$
+% This document describes how to use iitbreport style
+%********************************************************************
+
+%\documentclass[11pt,a4paper,openright]{report}
+\documentclass[tikz, twoside, 10pt]{iitbreport}
+% \documentclass[twoside,draft]{iitbreport}
+
+%% Default spacing: 1.5
+%% Default font size: 12pt
+%% Default font: txfonts (similar to times new roman)
+
+%% Selectively comment out sections that you want to be left out but
+%% maintaining the page numbers and other \ref
+\includeonly{%
+  chapter_synopsis/introduction_synopsis,
+  chapter_synopsis/ctvf_synopsis,
+  chapter_synopsis/csph_synopsis,
+  % chapter_synopsis/implementation_details,
+  chapter_synopsis/fsi_synopsis,
+  chapter_synopsis/rfc_synopsis,
+  chapter_synopsis/erosion_synopsis,
+  dec,abs,pub,ack
+}
+
+%%% Some commonly used packages (make sure your LaTeX installation
+%%% contains these packages, if not ask your senior to help installing
+%%% the packages)
+\usepackage{lipsum}
+\newcounter{question}
+\setcounter{question}{0}
+
+\usepackage{booktabs}
+\graphicspath{{expt/}}
+\usepackage{cleveref}
+\usepackage[hidelinks]{hyperref}
+
+% For the TODOs
+\usepackage{xcolor}
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,textsize=footnotesize]{todonotes}
+\newcommand{\todoin}{\todo[inline]}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+%%% Macro definitions for Commonly used symbols
+\newcommand{\Rey}{\ensuremath{\mathrm{Re}}}
+\newcommand{\avg}[1]{\ensuremath{\overline{#1}}}
+\newcommand{\tenpow}[1]{\ensuremath{\times 10^{#1}}}
+\newcommand{\pder}[2]{\ensuremath{\frac{\partial#1}{\partial#2}}}
+
+% Referencing macros
+\newcommand{\Eqref}[1]{Equation~\eqref{#1}}
+\newcommand{\Tabref}[1]{Table~\ref{#1}}
+\newcommand{\Figref}[1]{Figure~\ref{#1}}
+\newcommand{\Appref}[1]{Appendix~\ref{#1}}
+
+%Boldtype for greek symbols
+\newcommand{\teng}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\ten}[1]{\ensuremath{\mathbf{#1}}}
+
+% ================= python ===========================
+% ================= python ===========================
+% ================= python ===========================
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+\usepackage{minted}
+
+\lstset{language=Python,
+  basicstyle=\ttfamily\bfseries\small,
+  commentstyle=\color{red}\itshape,
+  stringstyle=\ttfamily\color{green!50!black},
+  showstringspaces=false,
+  keywordstyle=\color{blue}\bfseries}%
+% ================= python ===========================
+% ================= python ===========================
+% ================= python ===========================
+
+
+% ================= tikz ===========================
+% ================= tikz ===========================
+\usetikzlibrary{arrows.meta,chains,%
+                decorations.pathreplacing}
+
+\usetikzlibrary{matrix,backgrounds}
+% ================= tikz ===========================
+% ================= tikz ===========================
+
+\begin{document}
+
+%%********************************For question and answer format***********************
+\newcommand\Que[1]{%
+   \leavevmode\par
+   \stepcounter{question}
+   \noindent
+   \thequestion. Q --- #1\par}
+
+\newcommand\Ans[2][]{%
+    \leavevmode\par\noindent
+   {\leftskip37pt
+    A --- \textbf{#1}#2\par}}
+
+%%********************************Frontmatter***********************
+% In frontmatter everything comes with roman numbering
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%*******************************************************************
+%                         Title Page
+%*******************************************************************
+\title{Coupled Smoothed Particle Hydrodynamics - Discrete Element Method
+  for Fluid and Solid Mechanics}
+\author{Dinesh Adepu}
+
+%% Print the date. Today's date comes by default, change it here to
+%% other date format, if required:
+
+%\date{\today}
+%\date{10 Mar 2016}
+
+
+%% The type of the report can be set here
+
+% \reporttype{A Seminar Report}
+\reporttype{A Thesis}
+%\reporttype{A Dissertation}
+%\reporttype{A Project Report}
+
+%% Name of the degree
+\degree{Doctor of Philosophy}
+%\degree{Master of Technology}
+
+
+%% Department/Centre Name
+\dept{Department of Aerospace Engineering}
+
+%% Supervisor and cosupervisor/excosupervisor are not essential parts
+%% of a report title page, as it is your report!
+
+%% But if you **have** to put it uncomment these
+\supervisor{Prof. Prabhu Ramachandran}
+%\cosupervisor{Co-super name}
+%\excosupervisor{External Supervisor}
+
+%% Roll number
+\rollnum{Roll No. 153010009}
+
+\maketitle
+
+%*******************************************************************
+%                         Copyright Page
+%*******************************************************************
+%\mycopyright
+
+%*******************************************************************
+%                         Dedication Page
+%*******************************************************************
+% \dedication[Dedicated to Nietzsche]
+\dedication[To \\ \cdots]
+%\addintoc{Dedication}
+
+%*******************************************************************
+%                        Certificate Page
+%*******************************************************************
+%\makecertificate[change title name]{report type}
+% \makecertificate{seminar report}
+\makecertificate{thesis}
+%\makecertificate{dissertation}
+%\makecertificate{project report}
+
+%\addintoc{Certificate}
+
+%*******************************************************************
+%                         Approval Sheet
+%*******************************************************************
+\makeapproval{thesis}
+%\makeapproval{dissertation}
+
+%*******************************************************************
+%                          Declaration
+%*******************************************************************
+\include{dec}
+%\addintoc{Declaration}
+
+%*******************************************************************
+%                        Acknowledgements
+%*******************************************************************
+\include{ack}
+
+%******************************************************************
+%                          Abstract
+%******************************************************************
+\include{abs}
+
+%******************************************************************
+%                         Contents list
+%******************************************************************
+%\figurespagefalse
+%\tablespagefalse
+\makecontents % Creats toc, lof, and lot
+
+%******************************************************************
+%                        Notations
+%******************************************************************
+\notations[4cm]{List of Symbols}
+
+%%********************************Mainmatter***********************
+% In mainmatter everything comes with arabic numbering
+\cleardoublepage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+%******************************************************************
+%                         Chapters
+%******************************************************************
+\include{chapter_synopsis/introduction_synopsis}
+\include{chapter_synopsis/ctvf_synopsis}
+\include{chapter_synopsis/csph_synopsis}
+% \include{chapter_synopsis/implementation_details}
+\include{chapter_synopsis/fsi_synopsis}
+\include{chapter_synopsis/rfc_synopsis}
+\include{chapter_synopsis/erosion_synopsis}
+% \include{chapter_tmp_misc/guide_to_writing}
+
+% %****************************************************************
+% %                         Appendices
+% %****************************************************************
+% %% Additional, supporting material, such as codes, derivations, etc., can be placed in the appendix
+% \appendix
+% \chapter{Supporting Material}
+
+%******************************************************************
+%                         Bibliography or References
+%******************************************************************
+\bibliography{mylit}
+
+%*******************************************************************
+%                         List of publications
+%******************************************************************
+\include{pub}
+
+%*******************************************************************
+%                        About author
+%*******************************************************************
+% \colophon % remove this command while using this file.
+
+% GAME OVER
+%*******************************************************************
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
