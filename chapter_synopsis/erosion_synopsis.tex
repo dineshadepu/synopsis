@@ -4,10 +4,10 @@ We develop a numerical implementation to study the solid particle erosion of a
 ductile target. We follow the numerical model proposed in
 \citep{dong2016smoothed}. We utilize the CTVF to model the elastic behavior of
 the ductile target, while the collision between the rigid bodies, elastic bodies
-to modeled using DEM. We extend the developed numerical method to handle plastic
-using a Johnson-Cook constitutive law. The objective of this work is to develop
-an open-source framework to handle solid-particle erosion in two and three
-dimensions. The solver should handle erosion of the target due to multiple
+to modeled using DEM. We extend the developed numerical method to handle
+plasticity using a Johnson-Cook constitutive law. The objective of this work is
+to develop an open-source framework to handle solid-particle erosion in two and
+three dimensions. The solver should handle erosion of the target due to multiple
 impacting particles. Here, The impacting particles may be interacting
 themselves.
 
@@ -50,10 +50,8 @@ we see the square particles to be overlapping.
 
 % ====================================================================================
 % ====================================================================================
-We study the erosion of AL6061-T6 material due to multiple square particle
-impacts. In contrast to the previous section, we allow square particles to
-interact among themselves.
-
+We next study the erosion of AL6061-T6 material due to multiple square particle
+impacts, where, we allow square particles to interact among themselves.
 \begin{figure}[tpb]
   \centering
   \begin{subfigure}{0.48\textwidth}
