@@ -1,4 +1,3 @@
-\FloatBarrier%
 \chapter{Rigid-fluid coupling}
 \label{chap:rfc}
 We model the dynamics of rigid bodies in fluid flow and the coupled behavior of
@@ -11,36 +10,15 @@ resulting in accurate fluid modeling. Rigid-rigid interactions are modeled with
 DEM. The interaction between the fluid phase and rigid bodies is handled using
 the dummy particle approach.
 
-We demonstrate the CTVF-DEM model by simulating sliding of a rigid cube on a
-frictional inclined plane, and rising of a cylinder in a
-hydrostatic tank.
-
-
-\FloatBarrier%
-\section{Rigid body sliding down an inclined plane}
-\label{sec:rigid-body-sliding}
-The rigid body of length $0.1$ m, height
-$0.1$ m, is allowed to slide on a frictional surface which is at an angle
-$\frac{\pi}{3}$. The schematic is shown is \cref{fig:rigid_body_sliding}. A
-density of $2000$ kg\,m\textsuperscript{-3} is used for the body.
-\begin{figure}[!htpb]
-  \centering
-  \includegraphics[width=0.4\textwidth]{images/rfc/images/rigid_body_sliding/schematic}
-  \caption{Schematic of a square body sliding down an inclined plane under gravity.}
-\label{fig:rigid_body_sliding}
-\end{figure}
-We have considered three different friction coefficients, $\mu=0.2$, $0.3$, and
-$0.6$. From the analytical solution, when the friction coefficient is greater
-than $\tan(\frac{\pi}{3})$, we have no slip condition and the body doesn't
-slide.
-
+We consider the sliding of a rigid body to demonstrate the rigid-rigid interaction
+modeling. A rigid body is allowed to slide on a frictional surface.
 \Cref{fig:results-solid-sliding-velocity-vs-time-2d} shows a evolution of
 velocity of the center of mass of the rigid body for different frictional
 coefficients against the analytical solution. From
 \cref{fig:results-solid-sliding-velocity-vs-time-2d} we can see that the current
 solver has an excellent match with the analytical solution and covers all the
 regimes of the sliding case.
-\begin{figure}[!htpb]
+\begin{figure}[tpb]
   \centering
   \includegraphics[width=0.6\textwidth]{figures/rfc/figures/mohseni_2021_free_sliding_on_a_slope_2d/velocity_vs_time}
   \caption{Variation of the velocity of the rigid body with time for different
@@ -50,9 +28,6 @@ regimes of the sliding case.
 \end{figure}
 
 
-\FloatBarrier%
-\section{Cylinder rising in a hydrostatic tank}
-\label{sec:water-entry-sphere}
 % https://www.sciencedirect.com/science/article/pii/S0997754621001412#fig2
 We study the behavior of a circular cylinder of density $500$
 kg\,m\textsuperscript{-3} immersed in a hydrostatic tank under gravity. Since
@@ -62,14 +37,14 @@ snapshot of a rising cylinder at time $t=15$ s and time variation of the center
 of mass with time. As can be seen from the figure, since the density of the
 cylinders is 500 kg\,m\textsuperscript{-3} the cylinder floats at half of its
 diameter.
-\begin{figure}[!htpb]
+\begin{figure}[tpb]
   \centering
     \includegraphics[width=0.4\textwidth]{images/rfc/images/water_entry_of_sphere/schematic}
   \caption{The schematic of an immersed cylinder in a hydrostatic tank.}
 \label{fig:raising-falling-solid-in-water}
 \end{figure}
 
-\begin{figure}[!htpb]
+\begin{figure}[tpb]
   \centering
   \begin{subfigure}{0.48\textwidth}
     \centering

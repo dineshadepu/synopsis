@@ -1,79 +1,132 @@
 \chapter{Introduction}
 \label{chap:intro}
+Several real-life applications involve fluid dynamics, structural dynamics, and
+interaction between these two materials. Examples include fluid-structure
+interaction, rigid body collision inside fluid flow, rigid bodies colliding,
+\begin{figure}[!htpb]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/intro/images/intro_section/erosion_hand_drawn_2}
+  \caption{A schematic of erosion of a ductile solid due to several arbitrarily
+    shaped solids impacting it in a fluid flow.}
+\label{fig:intro-big-picture}
+\end{figure}
+deforming, and eroding an elastic-plastic target. \Cref{fig:intro-big-picture}
+depicts a complex physical process. From \Cref{fig:intro-big-picture}, we can
+see the erosion of a ductile solid due to the impact of rigid bodies in a fluid
+flow. From the numbered labels, one needs to model the following physics to
+model a problem such as this,
+\begin{enumerate}
+\item fluid dynamics,
+\item elastic-plastic dynamics,
+\item fluid-structure interaction (FSI),
+\item free rigid body dynamics,
+\item rigid-fluid coupling (RFC) and rigid-rigid interaction and,
+\item solid particle erosion (SPE).
+\end{enumerate}
+We employ particle-based numerical methods to model the physical processes
+involved in handling a problems like in \cref{fig:intro-big-picture}, due to the
+natural ability to handle free surfaces and large deformation problems. We use a coupled
+smoothed particle hydrodynamics (SPH) and discrete element method (DEM)
+formulation to model the physical processes. We now review the state of the art
+in SPH and DEM to model these physical processes.
 
 
-In the current chapter we model the collision between elastic bodies. Modeling
-the collision among elastic solids allows us to handle the interaction between
-the target and the impactor when they are assumed as elastic or elastic-plastic.
-An SPH based solution leads to unphysical interactions in modeling the collision
-of objects when they are close by but not touching. Further, SPH model does not
-incorporate friction between the colliding bodies. In the current chapter, a
-contact force model is incorporated into the existing solver to handle the
-interaction between the colliding solids. Specifically, we consider bodies with
-arbitrary shapes.
+To model fluid and elastic dynamics, we choose SPH. SPH method has been
+extensively applied to fluids, elastic dynamics, fluid-structure interaction
+among other areas~\parencite{monaghan2012smoothed}. Due to its meshless and
+Lagrangian nature the particles move with the local velocity and can introduce
+disorder in the particles and thereby significantly reduce the accuracy of the
+method. To ensures particle homogenization, \textcite{Adami2013} proposed
+Transport Velocity Formulation (TVF) in SPH and applied to internal flow
+problems, producing very accurate results. A generalized TVF by
+\textcite{zhang_hu_adams17} is proposed to simulate free surface flow problems.
+However, \textcite{Adami2013,zhang_hu_adams17} do not consider additional terms
+while recasting the governing equations to the transport velocity formulation.
+Further, GTVF leads to tensile instability in solids, when used with a different
+PST.
 
 
-The collision of arbitrary solid bodies occurs everywhere around us. Apart
-from the elastic collision of bodies, other important examples include surface
-erosion, waterjet machining \citep{natarajan2020abrasive}, and machining
-processes \citep{islam2020numerical} to note a few. It is important to be able
-to simulate such problems accurately.
-
-% When body A discretized into n particles is colliding a body B which is
-% discretized in to m particles, above techniques use the particles in B to
-% compute the accelerations of density and velocity of particles in A. A few
-% drawbacks of this approach is, the bodies come in to contact even when the
-% bodies are physically not touching, and the no frictional modeling is modeled.
-% \textcite{yan2021simulation} has proposed a interfacial SPH scheme , where each
-% elastic body uses their own particles in computation of divergence, momentum
-% and strain rate. While, the bodies interact by a repulsive force inspired from
-% Ansys. Where they have shown the improvement on modeling the collision with
-% different examples. Yan has considered Gray SPH which is not so great with
-% kernel invariance as it shows tensile instability with a few kernels as shown
-% by Roth 2020. Also the contact force model didn't incorporate the frictional
-% part of the collision. Further the contact force has a influence of 2h radius,
-% implies there would be a force acting on the interacting bodies though they
-% are not touching physically.
-
-% The contact force model used in Yan is inspired from ANSYS model and is given.
-% A similar work is done by \textcite{vyas2021collisional}, where the author models
-% the interaction between a circular rigid body impacting a target surface. In
-% his work, author proposes a non-linear penalty based force model which could
-% handle friction as well and studies the rebounding characteristic of the
-% impactor. Here, the author studies the post collision behaviour of the
-% circular rigid body which is interacting the elastic plastic solid at
-% different incident angles. \textcite{mohseni2021particle} proposed an advanced
-% version of the collision model where he models the interaction between a rigid
-% body with a brittle solids and models the erosion of the brittle solid.
-
-% Finally the current model comes into place only when the material interfaces
-% are touching unlike what Yan's contact force model and conventional SPH. We
-% also check the invariance of the current scheme in modeling the collisions for
-% different types of kernels used.
+In modeling the collision of elastic solids, SPH has been successful
+\parencite{gray2001sph}. However, it does not consider friction between the
+colliding solids. Another problem is that the model generates spurious forces on
+bodies which are moving close to each other. \textcite{yan2021simulation}
+introduced the interfacial SPH scheme, which eliminates the spurious
+interactions but it cannot handle friction between the solids. Additionally the
+interaction force does not consider the shape of the solids in contact.
 
 
-In the current work, the collision between elastic solids is modeled using a
-penalty-based contact force model. A contact force based approach for collision
-handling will eliminate the spurious interaction between bodies, which occurs
-while modeling with an SPH-based model. Unlike the approach of
-\citep{yan2021simulation}, the proposed contact force model can handle friction
-between the solids as well. The bodies themselves are elastic and this is
-simulated using the CTVF SPH method \citep{adepu2021corrected}. The
-penalty-based force considered here is the one proposed by
-\textcite{mohseni2021particle}. In the original model proposed by
-\citep{mohseni2021particle}, the contact force is between a primary body and a
-secondary body. In \citep{mohseni2021particle}, the primary body is usually
-treated as the rigid body and the body on which the erosion is simulated is
-treated as secondary. It is not clear what would happen if both bodies were
-elastic or if there is no clear way to distinguish between a primary and
-secondary body. We explore these questions in the present work. The work of
-\textcite{mohseni2021particle} takes inspiration from that of
-\textcite{vyas2021collisional} where too there is a clear distinction between
-primary and secondary bodies. \textcite{vyas2021collisional} also consider the
-collision between a rigid and elastic body. In the present work we only
-implement the collision model of \citep{mohseni2021particle} due to its
-simplicity. The model proposed by \textcite{vyas2021collisional} is more complex to
-implement. Several examples are simulated to validate the current scheme,
-ranging from simulations compared with FEM, analytical results as well as
-experimental. We next look at the numerical method used to model the collision
-among the elastic solids.
+FSI is modeled by several works using SPH, such as, weakly compressible
+SPH-Total Lagrangian SPH (TLSPH), WCSPH-Updated Lagrangian SPH (ULSPH),
+incompressible SPH-TLSPH~\parencite{khayyer2022systematic}. However, no work is
+reported in an updated Lagrangian framework to model FSI with a transport
+velocity formulation with corrections included.
+
+
+In order to simulate rigid-rigid interaction between the bodies with irregular
+geometries multi-sphere approach \parencite{kruggel-emden_study_2008}, and
+surface mesh represented (SMR)-DEM ~\parencite{zhan2021surface} are used.
+However, the multi-sphere approach fails to handle the contact accurately with
+bodies involving sharp corners, as the force law assumes the contact between two
+spherical particles. SMR-DEM requires additional information to handle the
+collision, such as connectivity between the particles comprising the body in
+addition to the particle positions. Additionally, we need additional sets of
+particles to handle the interaction between the rigid body and the fluid
+particles to model rigid-fluid coupling.
+
+
+To simulate solid particle erosion, \textcite{dong2016smoothed} uses smoothed
+particle hydrodynamics (SPH). However, \textcite{dong2016smoothed} does not
+consider the arbitrary shape of the projectile. Further, collision among the
+projectiles while interacting with the target is not modeled. To the authors
+knowledge there is no open-source implementation in the literature which can
+model the solid particle erosion using SPH.
+
+
+Having discussed the drawbacks in modeling of these complex physical processes,
+in the current work we develop an open-source framework to model the complex
+physics. The following are the key goals of the work.
+\begin{itemize}
+\item Develop a unified technique in SPH to solve both fluid and solid dynamics
+  problems.
+\item Handle the collision between the elastic solids using a penalty-based contact force.
+\item Handle the collision among the arbitrarily shaped rigid projectiles in fluid
+  flow. Solve the two-way coupling between the fluid and the rigid bodies.
+\item Develop a fluid-structure interaction solver.
+\item Provide an open-source implementation for solid particle erosion in SPH.
+\end{itemize}
+
+We propose a corrected transport velocity formulation (CTVF) which works for both
+solid mechanics and fluid mechanics problems. We study the importance of the
+missing terms while recasting the governing equation to transport velocity
+formulation. We employ the EDAC formulation to the transport velocity
+formulation and show that there are additional correction terms in the EDAC
+scheme that should be introduced to improve the accuracy of the method. The
+method is also robust to the choice of the smoothing kernel.
+
+We model the collision between elastic solids using a penalty-based contact
+force model. The penalty-based force considered here is the one proposed by
+\textcite{mohseni2021particle}. We explore the importance of choosing the
+primary and secondary body under collision. We also eliminate the spurious
+interaction forces between nearby interacting bodies and show how the contact
+force can be used for elastic bodies. Additionally, friction between the
+colliding solids is considered with the current formulation.
+
+We model FSI problems with the CTVF method. We model both fluids and solid
+material using CTVF alone. We couple CTVF with DEM to model the rigid fluid
+coupling problems. The fluid phase is handled using the CTVF, which provides
+smooth pressure distribution with EDAC formulation. DEM is used to handle
+rigid-rigid interactions The interaction between the fluid phase and rigid
+bodies is handled using the dummy particle approach \parencite{Adami2012}.
+
+We develop a framework to model the solid particle erosion with CTVF method to
+model the elastic-plastic behavior of the ductile target. The plastic
+behavior is incorporated using a Johson-Cook constitutive model. The interaction
+between the arbitrarily shaped solids and the ductile target are modeled with a
+modified contact force formulation. We establish the framework such that it can
+handle erosion due to multiple impacts. Here, we allow the multiple particles to
+also interact among themselves.
+
+
+
+In the next few sections we give an overview of the our work in modeling these
+physical processes.

@@ -1,4 +1,3 @@
-\FloatBarrier%
 \chapter{Erosion}
 \label{chap:erosion}
 We develop a numerical implementation to study the solid particle erosion of a
@@ -15,10 +14,6 @@ themselves.
 
 % ====================================================================================
 % ====================================================================================
-\FloatBarrier%
-\section{Solid-particle erosion due to multiple square particles: with no self
-  interaction}
-\label{sec:res:mpe-2}
 We study the erosion of AL6061-T6 material due to the impact of multiple square
 particles. We assume that the square particles do not interact with other square
 particles. This test is used to demonstrate the capabilities of the developed
@@ -32,7 +27,7 @@ particle impacting the target. From the figure, we can see the chip separation.
 From \cref{fig:mpe-2-full-b} we can see the material eroded due to the first
 particle impact flying away. Since, we assume square particles to be non interacting
 we see the square particles to be overlapping.
-\begin{figure}[!htpb]
+\begin{figure}[tpb]
   \centering
   \begin{subfigure}{0.48\textwidth}
     \centering
@@ -55,15 +50,11 @@ we see the square particles to be overlapping.
 
 % ====================================================================================
 % ====================================================================================
-\FloatBarrier%
-\section{Solid-particle erosion due to multiple square particles: with
-  self interaction}
-\label{sec:erosion-multiple-impact-self-interact}
 We study the erosion of AL6061-T6 material due to multiple square particle
 impacts. In contrast to the previous section, we allow square particles to
 interact among themselves.
 
-\begin{figure}[!htpb]
+\begin{figure}[tpb]
   \centering
   \begin{subfigure}{0.48\textwidth}
     \centering
@@ -91,5 +82,5 @@ impacting the lower body.
 
 
 We have demonstrated that the developed software can handle the modeling erosion
-of a body in 2 and 3 dimensions. Further, we verified that the representation of
+of a body in two and three dimensions. Further, we verified that the representation of
 projectiles with border particles reduces the time of computation.
